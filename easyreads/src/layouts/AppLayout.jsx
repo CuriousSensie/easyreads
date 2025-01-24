@@ -10,7 +10,7 @@ const AppLayout = () => {
         - 
         - Next we have the render point for the Routes after the Header
       */}
-      <main className='mx-auto' style={{height : 'calc(100vh -  3rem)'}}>
+      <main className='mx-auto' style={{height : 'calc(100vh - 3rem)'}}>
         <Header /> 
         <Outlet />
       </main>

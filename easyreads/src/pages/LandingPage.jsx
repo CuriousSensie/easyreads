@@ -24,7 +24,7 @@ const LandingPage = () => {
   }, []);
 
   return (
-    <div className="relative w-full h-screen">
+    <div className="relative w-full h-full">
       {/* Blurred background */}
       <img
         className="w-full h-full blur-sm object-cover absolute top-0 left-0 right-0 bottom-0 -z-10"
