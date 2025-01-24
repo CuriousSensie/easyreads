@@ -3,8 +3,14 @@ import LibraryImg from '../../public/library.jpg';
 import Hero1 from '../../public/hero1.jpg';
 import Hero2 from '../../public/hero2.jpg';
 import Hero3 from '../../public/hero3.jpg';
+import { Button } from '@/components/ui/button';
+import { useClerk } from '@clerk/clerk-react';
+
 
 const LandingPage = () => {
+  const clerk = useClerk();
+
+
   const heroData = [
     {
       text1: "Dive into the world of books",
@@ -36,9 +42,9 @@ const LandingPage = () => {
       <div className="flex w-full h-full flex-col lg:flex-row">
         {/* Hero image */}
         <div className="w-full lg:w-1/2 h-full py-4 flex justify-center items-center">
-          {heroCount === 1 && <img className="w-48 h-80 sm:w-64 sm:h-96 lg:w-52 lg:h-96 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl" src={Hero1} alt="Hero 1" />}
-          {heroCount === 2 && <img className="w-48 h-80 sm:w-64 sm:h-96 lg:w-52 lg:h-96 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl" src={Hero2} alt="Hero 2" />}
-          {heroCount === 3 && <img className="w-48 h-80 sm:w-64 sm:h-96 lg:w-52 lg:h-96 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl" src={Hero3} alt="Hero 3" />}
+          {heroCount === 1 && <img className="w-36 h-52 sm:w-64 sm:h-96 lg:w-52 lg:h-96 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl" src={Hero1} alt="Hero 1" />}
+          {heroCount === 2 && <img className="w-36 h-52 sm:w-64 sm:h-96 lg:w-52 lg:h-96 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl" src={Hero2} alt="Hero 2" />}
+          {heroCount === 3 && <img className="w-36 h-52 sm:w-64 sm:h-96 lg:w-52 lg:h-96 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl" src={Hero3} alt="Hero 3" />}
         </div>
 
         {/* Text on the right side */}
@@ -52,6 +58,9 @@ const LandingPage = () => {
           {heroCount === 1 && <h2 className="text-xl sm:text-2xl font-bold">{heroData[0].text1}</h2>}
           {heroCount === 2 && <h2 className="text-xl sm:text-2xl font-bold">{heroData[0].text2}</h2>}
           {heroCount === 3 && <h2 className="text-xl sm:text-2xl font-bold">{heroData[0].text3}</h2>}
+          <Button className="mt-6 px-6 py-3 mx-auto bg-yellow-500 text-black font-bold rounded-lg shadow-lg hover:bg-yellow-600 transition-all duration-300" onClick={() => clerk.openSignIn({})}>
+            Get Started
+          </Button>
         </div>
       </div>
     </div>

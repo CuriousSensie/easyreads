@@ -9,12 +9,13 @@ import { Input } from './ui/input'
 
 
 const Header = () => {
+  // I'll use this later to display the name
   const user = useUser();
 
-  console.log(user);
   return (
     <>
-        <nav className='px-8 flex h-12 justify-between items-center'>
+        <nav className='px-8 flex h-12 justify-between items-center border-b-2 border-solid border-slate-500'>
+          {/* Left */}
           <div className='flex flex-row items-center justify-center gap-4'>
             {/* logo */}
             <Link className='flex flex-row'>
@@ -30,19 +31,18 @@ const Header = () => {
             </Link>
 
             {/* search bar */}
-            <div className="flex flex-row border-black border-solid outline-neutral-950 gap-1">
-              <SignedIn >
-                <Input type="text" placeholder="Search Books" />
-                <Button variant="outline" size="icon">
+            <div className="flex flex-row border-2 border-slate-700 border-solid rounded-lg gap-1">
+              <SignedIn>
+                <Input className="h-6 border-none outline-none" type="text" placeholder="Search Books" />
+                <Button className="h-6 border-none" variant="outline" size="icon">
                   <FaSearch />
                 </Button>
               </SignedIn>
             </div>
           </div>
           
-          {/* sign in button / user button AND Theme Toggle*/}
+          {/* Right */}
           <div>
-            {/* <Button variant="outline">Login</Button>  */}
             <div className='grid grid-cols-2 gap-4'>
               <ModeToggle />
               <SignedOut>
