@@ -18,7 +18,7 @@ const Header = () => {
           {/* Left */}
           <div className='flex flex-row items-center justify-center gap-4'>
             {/* logo */}
-            <Link className='flex flex-row'>
+            <Link className='flex flex-row' to='/'>
               <h1 className='text-bold text-xl text-slate-700'>E</h1>
               <h1 className='text-bold text-xl text-slate-600'>A</h1>
               <h1 className='text-bold text-xl text-slate-500'>S</h1>

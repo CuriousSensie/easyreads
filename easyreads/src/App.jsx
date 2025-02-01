@@ -34,11 +34,11 @@ function App() {
           element: user ? <Home /> : <Navigate to="/" />,  // Redirect to LandingPage if not signed in
         },
         {
-          path: "/book",
+          path: "/book/:id",
           element: user ? <Book /> : <Navigate to="/" />,  // Redirect to LandingPage if not signed in
         },
         {
-          path: "/read",
+          path: "/read/:id",
           element: user ? <Read /> : <Navigate to="/" />,  // Redirect to LandingPage if not signed in
         },
       ],

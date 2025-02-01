@@ -61,7 +61,7 @@
     --chart-5: 340 75% 55%;
     --custom1: 207 50% 62%;
     --custom2: 207 69% 34%;
-    --cardcolor: 214 38% 12%;
+    --cardcolor: 214 38% 30%;
 
   }
 }
@@ -100,4 +100,15 @@
   .gradient-title {
     @apply gradient text-transparent bg-clip-text;
   }
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+}
 }

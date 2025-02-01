@@ -1,11 +1,15 @@
 import React, {useState, useEffect} from 'react'
 import { FaBook, FaExternalLinkAlt, FaPen, FaSearch } from 'react-icons/fa'
 import BookItem from '../components/BookItem'
+import { Link, Router, useNavigate } from 'react-router-dom'
+
 
 const Home = () => {
   const [show, setShow] = useState(false);
   const [trending, setTrending] = useState([]);
   const [classics, setClassics] = useState([]);
+
+  const navigate = useNavigate();
 
   // temp data for placeholders
   const getData = () =>{
@@ -33,6 +37,13 @@ const Home = () => {
       },
       {
         id: 4,
+        title: 'The Great Gatsby',
+        genre: ['Fiction', 'Classics'],
+        author: 'F. Scott Fitzgerald',
+        rating: 4.0
+      },
+      {
+        id: 5,
         title: 'The Great Gatsby',
         genre: ['Fiction', 'Classics'],
         author: 'F. Scott Fitzgerald',
@@ -91,10 +102,10 @@ const Home = () => {
         {/* trending */}
           <div >
             <h1 className='text-3xl m-2'>Trending</h1>
-            <div className='flex flex-row m-4 overflow-x-auto gap-3'>
+            <div className='flex flex-row m-4 overflow-x-scroll no-scrollbar gap-3'>
               {trending.map((book) => {
                   return (
-                    <BookItem key={book.id - 1} book={book} />
+                    <BookItem key={book.id - 1} book={book}/>
                   )
                 })
               }
