@@ -1,62 +1,115 @@
-import React, {useEffect, useState} from 'react'
-// using the react pdf viewer 
+import React, { useEffect, useState, useRef } from 'react';
 import { Viewer, Worker } from '@react-pdf-viewer/core';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
-// importing the styles for pdf viewer
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
-
-// using react-reader for epub files
-import {ReactReader} from "react-reader";
-import useLocalStorageState from 'use-local-storage-state'
-
-
+import { ReactReader, ReactReaderStyle } from 'react-reader';
+import useLocalStorageState from 'use-local-storage-state';
 import { useTheme } from '@/components/theme-provider';
 
-const Read = () => {
-  // get theme from the theme provider
-  const {theme} = useTheme();
-  
-  // using the default layout plugin
-  const defaultLayoutPluginInstance = defaultLayoutPlugin();
-
-  const [location, setLocation] = useLocalStorageState(0);
-  const url = "../../public/the-great-gatsby.epub";
-
-  const [type, setType] = useState(null)
-
-  useEffect(() => {
-    if (url.search('.epub') !== -1) {
-      setType('epub')
-    } else if (url.search('.pdf') !== -1) {
-      setType('pdf')
+function updateTheme(rendition, theme) {
+    if (!rendition) return;
+    switch (theme) {
+        case 'dark':
+            rendition.themes.override('color', '#fff');
+            rendition.themes.override('background', '#000');
+            break;
+        case 'light':
+            rendition.themes.override('color', '#000');
+            rendition.themes.override('background', '#fff');
+            break;
+        default:
+            break;
     }
-  }, [url])
-
-  return (
-    <div className='w-full h-full'>
-      {type === "epub" && <ReactReader 
-        url={url}
-        location={location}
-        locationChanged={(epubcfi) => setLocation(epubcfi)}
-        title="The Great Gatsby"
-      />
-      }
-
-      {type === "pdf" && <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.js">
-        <div style={{ height: '750px' }}>
-            <Viewer
-                fileUrl={url}
-                plugins={[
-                    defaultLayoutPluginInstance,
-                ]}
-                theme={theme}
-            />
-        </div>
-      </Worker>
-      }
-    </div>
-  )
 }
 
-export default Read
+const Read = () => {
+    const { theme } = useTheme();
+    const defaultLayoutPluginInstance = defaultLayoutPlugin();
+    const [location, setLocation] = useLocalStorageState('reader-location', { defaultValue: 0 });
+    const [fileType, setFileType] = useState(null);
+    const rendition = useRef(null);
+    const url = '/the-great-gatsby.epub';
+
+    useEffect(() => {
+        if (url.endsWith('.epub')) {
+            setFileType('epub');
+        } else if (url.endsWith('.pdf')) {
+            setFileType('pdf');
+        }
+    }, [url]);
+
+    useEffect(() => {
+        if (rendition.current) {
+            updateTheme(rendition.current, theme);
+        }
+    }, [theme]);
+
+    return (
+        <div className="w-full h-full">
+            {fileType === 'epub' && (
+                <ReactReader
+                    url={url}
+                    location={location}
+                    title="The Great Gatsby"
+                    locationChanged={(loc) => setLocation(loc)}
+                    readerStyles={theme === 'dark' ? darkReaderTheme : lightReaderTheme}
+                    getRendition={(renditionInstance) => {
+                        rendition.current = renditionInstance;
+                        updateTheme(renditionInstance, theme);
+                    }}
+                />
+            )}
+
+            {fileType === 'pdf' && (
+                <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.js">
+                    <div style={{ height: '750px' }}>
+                        <Viewer fileUrl={url} plugins={[defaultLayoutPluginInstance]} />
+                    </div>
+                </Worker>
+            )}
+        </div>
+    );
+};
+
+export default Read;
+
+const lightReaderTheme = {
+    ...ReactReaderStyle,
+    readerArea: {
+        ...ReactReaderStyle.readerArea,
+        backgroundColor: '#fff',
+        color: '#000',
+        transition: undefined,
+    },
+};
+
+const darkReaderTheme = {
+    ...ReactReaderStyle,
+    readerArea: {
+        ...ReactReaderStyle.readerArea,
+        backgroundColor: '#000',
+        color: '#fff',
+        transition: undefined,
+    },
+    titleArea: {
+        ...ReactReaderStyle.titleArea,
+        color: '#ccc',
+    },
+    tocArea: {
+        ...ReactReaderStyle.tocArea,
+        background: '#111',
+    },
+    tocButtonExpanded: {
+        ...ReactReaderStyle.tocButtonExpanded,
+        background: '#222',
+    },
+    tocButtonBar: {
+        ...ReactReaderStyle.tocButtonBar,
+        background: '#fff',
+    },
+    tocButton: {
+        ...ReactReaderStyle.tocButton,
+        color: 'white',
+    },
+};
