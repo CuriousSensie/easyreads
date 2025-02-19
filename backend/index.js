@@ -1,65 +1,39 @@
-import express from 'express'
-import dotenv from 'dotenv'
-import { Webhook } from 'svix'
-import bodyParser from 'body-parser'
-import mongoose from 'mongoose'
-import User from './model/userSchema.js';
+import dotenv from 'dotenv';
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+import auth from './routes/auth.js';
+import books from './routes/books.js';
+import cors from 'cors';
+import express from 'express';
+import jwt from 'jsonwebtoken';
+
 dotenv.config();
+import "./db.js";
 
-mongoose.connect(process.env.MONGO_URI).then(() => {
-    console.log('Connected to the database');
-}).catch((error)=>{
-    console.log(error.message);
-    
-})
+const app = express();
 
-const app = express()
+// ⚠️ Apply express.raw() for Webhooks before other middleware
+app.use("/api/auth/webhooks", express.raw({ type: "application/json" }));
 
-app.post(
-    "/api/webhooks",
-    bodyParser.raw({type:"application/json"}),
-    async function (req, res) {
-        try {
-            const payloadString = req.body.toString();
-            const svixHeaders = req.headers;
-            
-            const wh = new Webhook(process.env.CLERK_WEBHOOK_SECRET_KEY)
-            const event = wh.verify(payloadString, svixHeaders)
+// Apply JSON middleware (except for webhooks)
+app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-            const {id, ...attributes} = event.data;
-            const eventType = event.type;
+const corsOptions = {
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+};
+app.use(cors(corsOptions));
 
-            if (eventType === 'user.created') {
-                // console.log(`User ${id} is ${eventType}`);
-                // console.log(attributes); 
-                const firstName = attributes.first_name;
-                const lastName = attributes.last_name;
-                const user = new User({
-                    clerkUserId: id,
-                    firstName: firstName,
-                    lastName: lastName,
-                })
+app.use("/api/books", books);
+app.use("/api/auth", auth);
+app.use("/uploads", express.static('uploads'));
 
-                await user.save();
-                console.log('User is created ');
-                
-            }
 
-            res.status(200).json({
-                success: true,
-                message: "Webhook received",
-            })
-        } catch (error) {
-            res.status(400).json({
-                success: false,
-                message: error.message,
-            })
-        }      
-    }
-);
-
-const port = process.env.PORT || 7000;
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
-    console.log(`listeniing on port ${port}`);    
-})
+    console.log(`Listening on port ${port}`);
+});
