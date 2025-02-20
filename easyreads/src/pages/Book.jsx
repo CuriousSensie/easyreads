@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 
-const apiurl = "http://localhost:5000";
+const apiurl = "https://easyreads-server.vercel.app";
 
 const Book = () => {
   const { id } = useParams();

@@ -3,7 +3,7 @@ import { FaBook, FaExternalLinkAlt, FaPen, FaSearch } from "react-icons/fa";
 import BookItem from "../components/BookItem";
 import { Link } from "react-router-dom";
 
-const apiurl = "http://localhost:5000";
+const apiurl = "https://easyreads-server.vercel.app";
 
 const Home = () => {
   console.log(apiurl);

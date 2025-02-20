@@ -8,7 +8,7 @@ import useLocalStorageState from 'use-local-storage-state';
 import { useTheme } from '@/components/theme-provider';
 import { useParams } from 'react-router-dom';
 
-const apiurl = "http://localhost:5000";
+const apiurl = "https://easyreads-server.vercel.app";
 
 function updateTheme(rendition, theme) {
     if (!rendition) return;

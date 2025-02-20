@@ -1,7 +1,7 @@
 import React from 'react';
 import Hero1 from "../../public/hero1.jpg"; // Assuming Hero1 is the image path
 import { Link } from 'react-router-dom';
-const apiurl = 'http://localhost:5000';
+const apiurl = 'https://easyreads-server.vercel.app';
 
 const BookItem = ({ book }) => {
   const imageurl = apiurl + '/' + book.image;
