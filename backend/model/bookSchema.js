@@ -20,6 +20,10 @@ const bookSchema = new mongoose.Schema({
     pdf: {
         type: String,
         // required: true,
+    },
+    epub: {
+        type: String,
+        // required: true,
     }
 })
 

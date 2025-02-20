@@ -6,6 +6,9 @@ import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import { ReactReader, ReactReaderStyle } from 'react-reader';
 import useLocalStorageState from 'use-local-storage-state';
 import { useTheme } from '@/components/theme-provider';
+import { useParams } from 'react-router-dom';
+
+const apiurl = "http://localhost:5000";
 
 function updateTheme(rendition, theme) {
     if (!rendition) return;
@@ -29,15 +32,41 @@ const Read = () => {
     const [location, setLocation] = useLocalStorageState('reader-location', { defaultValue: 0 });
     const [fileType, setFileType] = useState(null);
     const rendition = useRef(null);
-    const url = '/the-great-gatsby.epub';
+
+    const { id } = useParams();
+    const [data, setData] = useState(null);
+    const [epub, setEpub] = useState(null);
+    const [pdf, setPdf] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (url.endsWith('.epub')) {
-            setFileType('epub');
-        } else if (url.endsWith('.pdf')) {
-            setFileType('pdf');
-        }
-    }, [url]);
+        const getData = async () => {
+            try {
+                const response = await fetch(`${apiurl}/api/books/${id}`);
+                if (!response.ok) throw new Error("Network response was not ok");
+
+                const bookData = await response.json();
+                setData(bookData);
+
+                if (bookData.epub) {
+                    let epubUrl = apiurl + '/' + bookData.epub;
+                    setEpub(epubUrl);
+                    setFileType("epub");
+                } else if (bookData.pdf) {
+                    let pdfUrl = apiurl + '/' +bookData.pdf;
+                    setPdf(pdfUrl);
+                    setFileType("pdf");
+                }
+                
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        getData();
+    }, [id]);
 
     useEffect(() => {
         if (rendition.current) {
@@ -45,13 +74,20 @@ const Read = () => {
         }
     }, [theme]);
 
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    console.log(epub, pdf);
+    
+
     return (
         <div className="w-full h-full">
-            {fileType === 'epub' && (
+            {fileType === 'epub' && epub && (
                 <ReactReader
-                    url={url}
+                    url={epub}
                     location={location}
-                    title="The Great Gatsby"
+                    title={data?.title || "Untitled Book"}
                     locationChanged={(loc) => setLocation(loc)}
                     readerStyles={theme === 'dark' ? darkReaderTheme : lightReaderTheme}
                     getRendition={(renditionInstance) => {
@@ -61,10 +97,10 @@ const Read = () => {
                 />
             )}
 
-            {fileType === 'pdf' && (
+            {fileType === 'pdf' && pdf && (
                 <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.js">
                     <div style={{ height: '750px' }}>
-                        <Viewer fileUrl={url} plugins={[defaultLayoutPluginInstance]} />
+                        <Viewer fileUrl={pdf} plugins={[defaultLayoutPluginInstance]} />
                     </div>
                 </Worker>
             )}
