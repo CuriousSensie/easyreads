@@ -3,7 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import Fallback from "../../public/fallback-image.jpg";
-const apiurl = "https://easyreads-server.vercel.app";
+
+const apiurl = import.meta.env.VITE_BACKEND_URL;
 
 const Book = () => {
   const { id } = useParams();

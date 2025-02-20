@@ -1,7 +1,8 @@
 import React from 'react';
 import Hero1 from "../../public/hero1.jpg"; // Assuming Hero1 is the image path
 import { Link } from 'react-router-dom';
-const apiurl = 'https://easyreads-server.vercel.app';
+const apiurl = import.meta.env.VITE_BACKEND_URL;
+
 import Fallback from "../../public/fallback-image.jpg";
 
 const BookItem = ({ book }) => {

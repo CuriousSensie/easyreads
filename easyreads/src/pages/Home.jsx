@@ -3,10 +3,10 @@ import { FaBook, FaExternalLinkAlt, FaPen, FaSearch } from "react-icons/fa";
 import BookItem from "../components/BookItem";
 import { Link } from "react-router-dom";
 
-const apiurl = "https://easyreads-server.vercel.app";
+
+const apiurl = import.meta.env.VITE_BACKEND_URL;
 
 const Home = () => {
-  console.log(apiurl);
   
   const [show, setShow] = useState(false);
   const [trending, setTrending] = useState([]);
