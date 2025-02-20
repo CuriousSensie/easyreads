@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
+import Fallback from "../../public/fallback-image.jpg";
 
 const apiurl = "https://easyreads-server.vercel.app";
 
@@ -42,7 +43,7 @@ const Book = () => {
       <div className="w-1/3 mt-10">
         <img
           className="w-3/4 flex mx-auto"
-          src={data.image ? `${apiurl}/${data.image}` : "/fallback-image.jpg"} // Check if image exists
+          src={data.image ? `${apiurl}/${data.image}` : Fallback} // Check if image exists
           alt={data?.title}
         />
         <div className="flex flex-row justify-center mt-4">
