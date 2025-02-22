@@ -29,7 +29,7 @@ app.use(cors());
 app.use("/api/books", books);
 app.use("/api/auth", auth);
 app.use("/uploads", express.static('uploads'));
-app.use("/test"), (req, res) => {
+app.get("/test"), (req, res) => {
     res.send("Test Route");
 }
 
@@ -42,9 +42,3 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
-
-import { VercelRequest, VercelResponse } from "@vercel/node";
-
-export default function handler(req, res) {
-    return app(req, res);
-}
