@@ -1,14 +1,12 @@
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
-import mongoose from 'mongoose';
-import auth from './routes/auth.js';
-import books from './routes/books.js';
+import auth from '../routes/auth.js';
+import books from '../routes/books.js';
 import cors from 'cors';
 import express from 'express';
-import jwt from 'jsonwebtoken';
 
 dotenv.config();
-import "./db.js";
+import "../db.js";
 
 const app = express();
 
@@ -44,3 +42,9 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
+
+import { VercelRequest, VercelResponse } from "@vercel/node";
+
+export default function handler(req, res) {
+    return app(req, res);
+}
