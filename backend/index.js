@@ -26,7 +26,7 @@ const corsOptions = {
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin'],
 };
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use("/api/books", books);
 app.use("/api/auth", auth);
