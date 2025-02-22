@@ -31,7 +31,9 @@ app.use(cors());
 app.use("/api/books", books);
 app.use("/api/auth", auth);
 app.use("/uploads", express.static('uploads'));
-
+app.use("/test"), (req, res) => {
+    res.send("Test Route");
+}
 
 const port = process.env.PORT || 5000;
 
