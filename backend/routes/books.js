@@ -67,6 +67,15 @@ router.get("/all", async (req, res) => {
     }
 });
 
+router.get("/test", (req, res) => {
+    try {
+        res.json({ message: "All books data works!" });
+    } catch (error) {
+        res.status(500).json({ error: "Server Error:" + "error.message "});
+    }
+});
+
+
 // API Route to Get Book by ID
 router.get("/:id", async (req, res) => {
     try {
@@ -81,12 +90,5 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-router.get("/test", (req, res) => {
-    try {
-        res.json({ message: "All books data works!" });
-    } catch (error) {
-        res.status(500).json({ error: "Server Error" });
-    }
-});
 
 export default router;
