@@ -1,12 +1,12 @@
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
-import auth from '../routes/auth.js';
-import books from '../routes/books.js';
+import auth from './routes/auth.js';
+import books from './routes/books.js';
 import cors from 'cors';
 import express from 'express';
 
 dotenv.config();
-import "../db.js";
+import "./db.js";
 
 const app = express();
 
