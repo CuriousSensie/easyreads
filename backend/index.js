@@ -29,9 +29,9 @@ app.use(cors());
 app.use("/api/books", books);
 app.use("/api/auth", auth);
 app.use("/uploads", express.static('uploads'));
-app.get("/test"), (req, res) => {
+app.get('/test', (req, res) => {
     res.send("Test Route");
-}
+})
 
 const port = process.env.PORT || 5000;
 
@@ -42,3 +42,5 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
+
+export default app;
