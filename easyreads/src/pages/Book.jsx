@@ -10,6 +10,7 @@ const Book = () => {
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true); // Set to true initially
+  const [imageUrl, setImageUrl] = useState(null);
 
   useEffect(() => {
     const getData = async () => {
@@ -27,7 +28,7 @@ const Book = () => {
     };
 
     getData();
-  }, [id]); // Add id as a dependency
+  }, [id]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -43,7 +44,7 @@ const Book = () => {
       <div className="w-1/3 mt-10">
         <img
           className="w-3/4 flex mx-auto"
-          src={data.image ? `${apiurl}/${data.image}` : Fallback} // Check if image exists
+          src={data.image ? data.image : Fallback} // Check if image exists
           alt={data?.title}
         />
         <div className="flex flex-row justify-center mt-4">

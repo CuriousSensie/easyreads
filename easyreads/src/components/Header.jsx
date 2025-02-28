@@ -28,17 +28,7 @@ const Header = () => {
               <h1 className='text-bold text-xl text-slate-500'>A</h1>
               <h1 className='text-bold text-xl text-slate-600'>D</h1>
               <h1 className='text-bold text-xl text-slate-700'>S</h1>
-            </Link>
-
-            {/* search bar */}
-            <div className="flex flex-row border-2 border-slate-700 border-solid rounded-lg gap-1">
-              <SignedIn>
-                <Input className="h-6 border-none outline-none" type="text" placeholder="Search Books" />
-                <Button className="h-6 border-none" variant="outline" size="icon">
-                  <FaSearch />
-                </Button>
-              </SignedIn>
-            </div>
+            </Link>            
           </div>
           
           {/* Right */}

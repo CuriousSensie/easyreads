@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const corsOptions = {
     // origin is the root of frontend url
-    origin: 'https://easyreads.vercel.app',
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin'],
 };

@@ -30,13 +30,12 @@ const Read = () => {
     const { theme } = useTheme();
     const defaultLayoutPluginInstance = defaultLayoutPlugin();
     const [location, setLocation] = useLocalStorageState('reader-location', { defaultValue: 0 });
-    const [fileType, setFileType] = useState(null);
     const rendition = useRef(null);
 
     const { id } = useParams();
     const [data, setData] = useState(null);
-    const [epub, setEpub] = useState(null);
-    const [pdf, setPdf] = useState(null);
+    const [fileType, setFileType] = useState(null); 
+    const [fileUrl, setFileUrl] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -49,15 +48,16 @@ const Read = () => {
                 setData(bookData);
 
                 if (bookData.epub) {
-                    let epubUrl = apiurl + '/' + bookData.epub;
-                    setEpub(epubUrl);
                     setFileType("epub");
+                    setFileUrl(bookData.epub);
                 } else if (bookData.pdf) {
-                    let pdfUrl = apiurl + '/' +bookData.pdf;
-                    setPdf(pdfUrl);
                     setFileType("pdf");
+                    setFileUrl(bookData.pdf);
+                } else {
+                    setFileType(null);
+                    setFileUrl(null);
                 }
-                
+
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
@@ -74,18 +74,21 @@ const Read = () => {
         }
     }, [theme]);
 
+    useEffect(() => {
+        if (data) {
+            console.log("Book Data:", data);
+        }
+    }, [data]);
+
     if (loading) {
         return <div>Loading...</div>;
     }
 
-    console.log(epub, pdf);
-    
-
     return (
         <div className="w-full h-full">
-            {fileType === 'epub' && epub && (
+            {fileType === 'epub' && fileUrl && (
                 <ReactReader
-                    url={epub}
+                    url={fileUrl}
                     location={location}
                     title={data?.title || "Untitled Book"}
                     locationChanged={(loc) => setLocation(loc)}
@@ -97,13 +100,15 @@ const Read = () => {
                 />
             )}
 
-            {fileType === 'pdf' && pdf && (
+            {fileType === 'pdf' && fileUrl && (
                 <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.js">
                     <div style={{ height: '750px' }}>
-                        <Viewer fileUrl={pdf} plugins={[defaultLayoutPluginInstance]} />
+                        <Viewer fileUrl={fileUrl} plugins={[defaultLayoutPluginInstance]} />
                     </div>
                 </Worker>
             )}
+
+            {!fileType && <div>No file available for this book.</div>}
         </div>
     );
 };

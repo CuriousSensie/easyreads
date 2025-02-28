@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "easyreads-451912",
+  "private_key_id": "4eec3932b2c2caff69d776fd3b6de93c350b2c2e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCrfZpnjXFLNDSw\nG1HiTIT8fG5BCKc09pd3gfnOyZ/2ifJM4dpo+2mMIpyqL31MynQH/Qm4EA6dutIC\n4CJZSg6TKqmevcq3Pm2jwvmioDpHqJp7ioVUFS7PGzsXI7AfzUcI7irzlLishdsz\nM1vrDlkN5mYPPnixs4tDZYKcvH+1TPsUac0LwRHyclA/1zxJsI2Bok+5eV/4u8Iz\n642AR05Pw0UZAqYJolQkjnT/+vTruk+GUliiE787BbDK80uCEoPf48PVdRcT2s17\nf4TCHsDi4gECDbjoebi5XgrVIOQvWPd8xxKhnNZawXQUioYvEvP6exLLXZTlgcUP\nh2ouD4BhAgMBAAECggEAAcaYDtaye8F/gqvTwBzD+0PUFfEPny8nAB4szqj8kq5Y\nv5ZOn0vsKr7wgZwih2UoyKzkeP8UkapNsqksveE0D67PSRUkyFs5giq6kEYpuFR8\n/gbADO/3tz4MUXflgtzKraNetz084M91hr0TSHayciAGwkVmtUtbR7BBRxt2FJPi\nRjsuKGGIrtPXgpOTSpPmuvnGSI8XZfL7hrpZH88nlvAp3JNUWwwBtREbD7SFkiuO\nBguQxpVHu8zsNqefLb53giYF8u2dKxEf4xQ9TnHMYDUihshwdvKjT+tdZUZbmP+7\nSWOksQuVMibdnk0nDC/mxo2etb+4p/jL/GqUbwMdOQKBgQDUbZcwhl0CNW7fTIOh\nO6RdUIgWwmD6e6b0JR4hxMZb7rfPdI+9nTSKgcnOwVNIr6+xSRG1yi2gYjqh+S3u\nT12i1TaaoqDW58mJV4uk6T0dmfZXAXUxBQLWP48wZqo3XsB63EpahNGi7l1PQAwy\nCepXiFUPyb66CS2NxksggklXeQKBgQDOqmxsTm5dN78U77XswzA9QLVnSUj7PCXW\nOvxxMKvA+UHbT5fzLJY+jOl5wWHT3a+JmF4szrra3gP3u1cuMFdTBFiHkodCOdIA\nrikzqkDo7eizCi5XLHeuud70mLZhnF24IxVfuLkw+ikZZyKTlLKNFzo8ZTBcgkhB\nM818I27uKQKBgF9x1gqBdGy3oVdHQ6U/7PvYYS0IrRYeVMdBniZCCXXo7kGR97uU\nVLUe15PEHS19co1PbVumuZVkTT/Ve6OlmUa+Uchs5aNphY3l/eJcwY75TEuPZh5e\nSAYHjMiMeFJkikspi2bcYmy4eMhQ2Knq9pXZtY5gcQeZdBRNUhgLMfTRAoGABy1b\n/pbqtkoNVMjOZJ6Suk3Y/vFIm5EHL111DulFzbnaU6d7+3H89ccnBJd2skjso7aq\n7ptvWdKECMJ00KHVJojsGik4kVA4vtVNkQHEp1I71pvv6A8fSO4jlBMJonIvvwlY\n4K4loFHPw5YVWVK8sLGx0A8jktLjd4A5DqqcW6ECgYEAlyqLTGjEpLW21poO0Mru\nuOtVm6XhIxDeynto3rXUarfHS+TkHY3YokQ5H0TTzblOwWMLLkU8WIzie7Ahgqgf\nNbChfy18rie0vSbpT2RmOdOQpp7G23AMw8yCMyEweMTau79fBXmsrRQoiSWQ4/lG\nB1rqdzbE0TZTADbsavZe3Sw=\n-----END PRIVATE KEY-----\n",
+  "client_email": "easyreadsserviceacc@easyreads-451912.iam.gserviceaccount.com",
+  "client_id": "104852814298129493885",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/easyreadsserviceacc%40easyreads-451912.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
