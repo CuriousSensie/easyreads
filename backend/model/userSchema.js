@@ -12,6 +12,8 @@ const userSchema = new mongoose.Schema({
     lastName: {
         type: String,
     },
+    favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }],
+    library: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }]
 
 })
 

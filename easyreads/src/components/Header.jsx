@@ -1,19 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Button } from './ui/button'
-import { SignedIn, SignedOut, UserButton, SignInButton, useUser} from '@clerk/clerk-react'
+import { SignedIn, SignedOut, UserButton, SignInButton} from '@clerk/clerk-react'
 import { ModeToggle } from './mode-toggle'
-import Logo from "../../public/ER.png"
-import {FaSearch} from 'react-icons/fa'
-import { Input } from './ui/input'
 
 
 const Header = () => {
-  // I'll use this later to display the name
-  const user = useUser();
-  console.log(user);
-  
-
   return (
     <>
         <nav className='px-8 flex h-12 justify-between items-center border-b-2 border-solid border-slate-500'>

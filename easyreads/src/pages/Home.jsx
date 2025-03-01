@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { FaHome, FaBook, FaExternalLinkAlt, FaPen, FaSearch, FaPlus } from "react-icons/fa";
 import BookItem from "../components/BookItem";
-import { Link } from "react-router-dom";
 import AddBook from "@/components/AddBook";
 import Browse from "@/components/Browse";
-
 
 const apiurl = import.meta.env.VITE_BACKEND_URL;
 
@@ -43,6 +41,7 @@ const Home = () => {
     };
     filterTrendingBooks();
   }, [allBooks]);
+
   // filter classics books
   useEffect(() => {
     const filterClassicsBooks = () => {
