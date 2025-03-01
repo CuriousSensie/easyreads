@@ -26,8 +26,8 @@ const Book = () => {
         
         if (user) {
           const [favResponse, libResponse] = await Promise.all([
-            fetch(`${apiurl}/api/favorites/${user.id}`),
-            fetch(`${apiurl}/api/library/${user.id}`)
+            fetch(`${apiurl}/api/auth/favorites/${user.id}`),
+            fetch(`${apiurl}/api/auth/library/${user.id}`)
           ]);
           
           if (favResponse.ok) {
