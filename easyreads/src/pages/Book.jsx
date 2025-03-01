@@ -13,24 +13,32 @@ const Book = () => {
   const [loading, setLoading] = useState(true);
   const [favorites, setFavorites] = useState([]);
   const [library, setLibrary] = useState([]);
-  const user = useUser();
+  const { user } = useUser();
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const bookResponse = await fetch(`${apiurl}/api/books/${id}`);
         if (!bookResponse.ok) throw new Error("Failed to fetch book data");
         const bookData = await bookResponse.json();
         setData(bookData);
+        
+        if (user) {
+          const [favResponse, libResponse] = await Promise.all([
+            fetch(`${apiurl}/api/favorites/${user.id}`),
+            fetch(`${apiurl}/api/library/${user.id}`)
+          ]);
+          
+          if (favResponse.ok) {
+            const favData = await favResponse.json();
+            setFavorites(favData.favorites.map(book => book._id));
+          }
 
-        if (user.user) {
-          const favResponse = await fetch(`${apiurl}/api/favorites/${user.user.id}`);
-          const favData = await favResponse.json();
-          setFavorites(favData.favorites.map(book => book._id));
-
-          const libResponse = await fetch(`${apiurl}/api/library/${user.user.id}`);
-          const libData = await libResponse.json();
-          setLibrary(libData.library.map(book => book._id));
+          if (libResponse.ok) {
+            const libData = await libResponse.json();
+            setLibrary(libData.library.map(book => book._id));
+          }
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -38,36 +46,49 @@ const Book = () => {
         setLoading(false);
       }
     };
-    fetchData();
-  }, [id, user.user]);
 
-  const toggleFavorite = async () => {
-    if (!user.user) return;
+    if (id) fetchData();
+  }, [id, user]);
+
+  const updateFavorites = async () => {
+    if (!user) return;
     const isFavorite = favorites.includes(id);
     const endpoint = isFavorite ? "remove" : "add";
+
     try {
       await fetch(`${apiurl}/api/auth/favorites/${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: user.user.id, bookId: id }),
+        body: JSON.stringify({ userId: user.id, bookId: id }),
       });
-      setFavorites(prev => isFavorite ? prev.filter(bid => bid !== id) : [...prev, id]);
+
+      const favResponse = await fetch(`${apiurl}/api/favorites/${user.id}`);
+      if (favResponse.ok) {
+        const favData = await favResponse.json();
+        setFavorites(favData.favorites.map(book => book._id));
+      }
     } catch (error) {
       console.error("Error updating favorites:", error);
     }
   };
 
-  const toggleLibrary = async () => {
-    if (!user.user) return;
+  const updateLibrary = async () => {
+    if (!user) return;
     const isInLibrary = library.includes(id);
     const endpoint = isInLibrary ? "remove" : "add";
+
     try {
       await fetch(`${apiurl}/api/auth/library/${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: user.user.id, bookId: id }),
+        body: JSON.stringify({ userId: user.id, bookId: id }),
       });
-      setLibrary(prev => isInLibrary ? prev.filter(bid => bid !== id) : [...prev, id]);
+
+      const libResponse = await fetch(`${apiurl}/api/library/${user.id}`);
+      if (libResponse.ok) {
+        const libData = await libResponse.json();
+        setLibrary(libData.library.map(book => book._id));
+      }
     } catch (error) {
       console.error("Error updating library:", error);
     }
@@ -91,13 +112,13 @@ const Book = () => {
         <p className="font-medium mb-2">{data.description}</p>
 
         <div className="flex flex-row justify-between gap-4 px-4">
-          <Button onClick={toggleFavorite} className={favorites.includes(id) ? "bg-red-500" : "bg-gray-300"}>
+          <Button onClick={updateFavorites} className={favorites.includes(id) ? "bg-red-500" : "bg-gray-300"}>
             <FaHeart />
           </Button>
           <Link className="mx-auto w-full" to={`/read/${data._id}`}>
             <Button className="w-full">Read</Button>
           </Link>
-          <Button onClick={toggleLibrary} className={library.includes(id) ? "bg-green-500" : "bg-gray-300"}>
+          <Button onClick={updateLibrary} className={library.includes(id) ? "bg-green-500" : "bg-gray-300"}>
             {library.includes(id) ? "Remove from Library" : "Add to Library"}
           </Button>
         </div>
