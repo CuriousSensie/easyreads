@@ -11,6 +11,8 @@ import { Input } from './ui/input'
 const Header = () => {
   // I'll use this later to display the name
   const user = useUser();
+  console.log(user);
+  
 
   return (
     <>

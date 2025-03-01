@@ -10,7 +10,7 @@ import "./db.js";
 
 const app = express();
 
-// ⚠️ Apply express.raw() for Webhooks before other middleware
+// Apply express.raw() for Webhooks before other middleware
 app.use("/api/auth/webhooks", express.raw({ type: "application/json" }));
 
 // Apply JSON middleware (except for webhooks)
@@ -36,7 +36,7 @@ app.get('/test', (req, res) => {
 const port = process.env.PORT || 5000;
 
 app.get('/', (req, res) => {
-    res.send('Hello');
+    res.send(process.env.CLERK_WEBHOOK_SECRET_KEY);
 });
 
 app.listen(port, () => {

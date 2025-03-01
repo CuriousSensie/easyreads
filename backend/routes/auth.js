@@ -12,10 +12,14 @@ router.post(
     "/webhooks",
     async (req, res) => {
         try {
-            const payloadString = req.body.toString(); // Ensure raw body is used
+            console.log("Webhook received", req.body);
+
+            const payloadString = JSON.stringify(req.body);
             const svixHeaders = req.headers;
 
             const wh = new Webhook(process.env.CLERK_WEBHOOK_SECRET_KEY);
+            console.log(process.env.CLERK_WEBHOOK_SECRET_KEY);
+            
             const event = wh.verify(payloadString, svixHeaders);
 
             const { id, ...attributes } = event.data;
@@ -32,7 +36,7 @@ router.post(
                 });
 
                 await user.save();
-                console.log('✅ User Created:', firstName, lastName);
+                console.log('User Created:', firstName, lastName);
             }
 
             res.status(200).json({
@@ -40,7 +44,7 @@ router.post(
                 message: "Webhook received",
             });
         } catch (error) {
-            console.error("❌ Webhook Error:", error.message);
+            console.error("Webhook Error:", error.message);
             res.status(400).json({
                 success: false,
                 message: error.message,
