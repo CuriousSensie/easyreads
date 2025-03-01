@@ -46,7 +46,7 @@ const Book = () => {
     const isFavorite = favorites.includes(id);
     const endpoint = isFavorite ? "remove" : "add";
     try {
-      await fetch(`${apiurl}/api/favorites/${endpoint}`, {
+      await fetch(`${apiurl}/api/auth/favorites/${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: user.user.id, bookId: id }),
@@ -62,7 +62,7 @@ const Book = () => {
     const isInLibrary = library.includes(id);
     const endpoint = isInLibrary ? "remove" : "add";
     try {
-      await fetch(`${apiurl}/api/library/${endpoint}`, {
+      await fetch(`${apiurl}/api/auth/library/${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: user.user.id, bookId: id }),
