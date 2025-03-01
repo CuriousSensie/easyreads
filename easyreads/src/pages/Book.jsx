@@ -62,7 +62,7 @@ const Book = () => {
         body: JSON.stringify({ userId: user.id, bookId: id }),
       });
 
-      const favResponse = await fetch(`${apiurl}/api/favorites/${user.id}`);
+      const favResponse = await fetch(`${apiurl}/api/auth/favorites/${user.id}`);
       if (favResponse.ok) {
         const favData = await favResponse.json();
         setFavorites(favData.favorites.map(book => book._id));
@@ -84,7 +84,7 @@ const Book = () => {
         body: JSON.stringify({ userId: user.id, bookId: id }),
       });
 
-      const libResponse = await fetch(`${apiurl}/api/library/${user.id}`);
+      const libResponse = await fetch(`${apiurl}/api/auth/library/${user.id}`);
       if (libResponse.ok) {
         const libData = await libResponse.json();
         setLibrary(libData.library.map(book => book._id));
