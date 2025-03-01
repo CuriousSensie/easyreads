@@ -55,7 +55,7 @@ router.post("/favorites/add", async (req, res) => {
             return res.status(400).json({ message: "User ID and Book ID are required" });
         }
 
-        const user = await User.findById({ clerkUserId: userId });
+        const user = await User.findOne({ clerkUserId: userId });
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -84,7 +84,7 @@ router.post("/favorites/remove", async (req, res) => {
             return res.status(400).json({ message: "User ID and Book ID are required" });
         }
 
-        const user = await User.findById({ clerkUserId: userId });
+        const user = await User.findOne({ clerkUserId: userId });
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
