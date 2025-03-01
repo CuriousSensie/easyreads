@@ -4,53 +4,46 @@ import { Webhook } from 'svix';
 import User from "../model/userSchema.js";
 
 dotenv.config();
-
 const router = express.Router();
 
-// Clerk Webhook Handler
-router.post(
-    "/webhooks",
-    async (req, res) => {
-        try {
-            console.log("Webhook received", req.body);
+router.post("/webhooks", async (req, res) => {
+    try {
+        console.log("Webhook Received:", req.body);
 
-            const payloadString = JSON.stringify(req.body);
-            const svixHeaders = req.headers;
+        const payloadString = req.body.toString('utf8'); 
+        const svixHeaders = req.headers;
 
-            const wh = new Webhook(process.env.CLERK_WEBHOOK_SECRET_KEY);
-            console.log(process.env.CLERK_WEBHOOK_SECRET_KEY);
-            
-            const event = wh.verify(payloadString, svixHeaders);
+        const wh = new Webhook(process.env.CLERK_WEBHOOK_SECRET_KEY);
+        const event = wh.verify(payloadString, svixHeaders); 
 
-            const { id, ...attributes } = event.data;
-            const eventType = event.type;
+        const { id, ...attributes } = event.data;
+        const eventType = event.type;
 
-            if (eventType === 'user.created') {
-                const firstName = attributes.first_name;
-                const lastName = attributes.last_name;
+        if (eventType === 'user.created') {
+            const firstName = attributes.first_name;
+            const lastName = attributes.last_name;
 
-                const user = new User({
-                    clerkUserId: id,
-                    firstName,
-                    lastName,
-                });
-
-                await user.save();
-                console.log('User Created:', firstName, lastName);
-            }
-
-            res.status(200).json({
-                success: true,
-                message: "Webhook received",
+            const user = new User({
+                clerkUserId: id,
+                firstName,
+                lastName,
             });
-        } catch (error) {
-            console.error("Webhook Error:", error.message);
-            res.status(400).json({
-                success: false,
-                message: error.message,
-            });
+
+            await user.save();
+            console.log('User Created:', firstName, lastName);
         }
+
+        res.status(200).json({
+            success: true,
+            message: "Webhook received",
+        });
+    } catch (error) {
+        console.error("Webhook Error:", error.message);
+        res.status(400).json({
+            success: false,
+            message: error.message,
+        });
     }
-);
+});
 
 export default router;

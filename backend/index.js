@@ -36,7 +36,7 @@ app.get('/test', (req, res) => {
 const port = process.env.PORT || 5000;
 
 app.get('/', (req, res) => {
-    res.send(process.env.CLERK_WEBHOOK_SECRET_KEY);
+    res.send("Hello");
 });
 
 app.listen(port, () => {
