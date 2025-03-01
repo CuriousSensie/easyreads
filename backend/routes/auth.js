@@ -55,7 +55,7 @@ router.post("/favorites/add", async (req, res) => {
             return res.status(400).json({ message: "User ID and Book ID are required" });
         }
 
-        const user = await User.findById(userId);
+        const user = await User.findById({ clerkUserId: userId });
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -84,7 +84,7 @@ router.post("/favorites/remove", async (req, res) => {
             return res.status(400).json({ message: "User ID and Book ID are required" });
         }
 
-        const user = await User.findById(userId);
+        const user = await User.findById({ clerkUserId: userId });
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -103,7 +103,7 @@ router.post("/favorites/remove", async (req, res) => {
 // get favorites from the user collection
 router.get("/favorites/:userId", async (req, res) => {
     try {
-        const user = await User.findById(req.params.userId).populate("favorites");
+        const user = await User.findById({ clerkUserId: req.params.userId }).populate("favorites");
 
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -125,7 +125,8 @@ router.post("/library/add", async (req, res) => {
             return res.status(400).json({ message: "User ID and Book ID are required" });
         }
 
-        const user = await User.findById(userId);
+        const user = await User.findOne({ clerkUserId: userId });
+
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -154,7 +155,8 @@ router.post("/library/remove", async (req, res) => {
             return res.status(400).json({ message: "User ID and Book ID are required" });
         }
 
-        const user = await User.findById(userId);
+        const user = await User.findOne({ clerkUserId: userId });
+
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -172,7 +174,7 @@ router.post("/library/remove", async (req, res) => {
 // get library
 router.get("/library/:userId", async (req, res) => {
     try {
-        const user = await User.findById(req.params.userId).populate("library");
+        const user = await User.findById({ clerkUserId: req.params.userId }).populate("library");
 
         if (!user) {
             return res.status(404).json({ message: "User not found" });
