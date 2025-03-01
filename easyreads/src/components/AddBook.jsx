@@ -81,6 +81,8 @@ function AddBook() {
   };
 
   return (
+    <div className="p-4" style={{height : 'calc(100vh - 3rem)'}}>
+    
     <div className="max-w-full mt-3 h-5/6 m-auto rounded-xl">
       <h2 className="text-2xl font-bold mb-4 text-center">Add a New Book</h2>
 
@@ -291,6 +293,7 @@ function AddBook() {
           )}
         </form>
       </div>
+    </div>
     </div>
   );
 }

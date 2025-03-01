@@ -10,7 +10,8 @@ const AppLayout = () => {
         I have an always-on-top header.
         The pages will change, and there will be no scrolling for pages. 
       */}
-      <main className='mx-auto' style={{height : 'calc(100vh - 3rem)'}}>
+      {/* style={{height : 'calc(100vh - 3rem)'}} */}
+      <main className='mx-auto min-h-screen'>
         <Header /> 
         <Outlet />
       </main>

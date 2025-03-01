@@ -32,7 +32,7 @@ function Browse({ allBooks }) {
     };
 
     return (
-        <div className="flex flex-col items-center w-full h-full p-4">
+        <div className="flex flex-col items-center w-full p-4" style={{height : 'calc(100vh - 3rem)'}}>
             {/* Search Input */}
             <div className="flex flex-row rounded-lg gap-2 p-2 w-1/2 sticky">
                 <Input
