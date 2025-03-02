@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaHome, FaBook, FaExternalLinkAlt, FaPen, FaSearch, FaPlus, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaHome, FaBook, FaExternalLinkAlt, FaPen, FaSearch, FaPlus, FaBug} from "react-icons/fa";
 import BookItem from "../components/BookItem";
 import AddBook from "@/components/AddBook";
 import Browse from "@/components/Browse";
 import Favorites from "@/components/Favorites";
 import Library from "@/components/Library";
+import Report from "@/components/Report";
 import ScrollableSection from "@/components/ScrollableSection";
 
 const apiurl = import.meta.env.VITE_BACKEND_URL;
@@ -60,7 +61,7 @@ const Home = () => {
   };
 
   return (
-    <div className="w-full h-full flex flex-row">
+    <div className="w-full flex flex-row" style={{minHeight : 'calc(100vh - 3rem)'}}>
       {/* Left Sidebar */}
       <div className="w-1/4 lg:w-1/5 min-h-full bg-secondary flex flex-col">
         <div className="ml-2 flex flex-row items-center gap-2 mt-2 cursor-pointer" onClick={() => setActiveSection("home")}>
@@ -98,14 +99,19 @@ const Home = () => {
           <FaPlus />
           Add Book
         </div>
+        <div className="ml-2 flex flex-row gap-2 items-center mt-2 cursor-pointer" onClick={() => setActiveSection("report")}>
+          <FaBug />
+          Report a Bug
+        </div>
       </div>
 
       {/* Main Content */}
-      <div className="w-3/4 lg:w-4/5 h-full bg-primary-foreground container mx-auto">
+      <div className="w-3/4 lg:w-4/5 min-h-full bg-primary-foreground container mx-auto">
         {activeSection === "addBook" ? <AddBook /> :
           activeSection === "browse" ? <Browse allBooks={allBooks} /> :
             activeSection === "favorites" ? <Favorites /> :
               activeSection === "library" ? <Library /> :
+                activeSection === "report" ? <Report /> :
                 <div>
                   <ScrollableSection title="Trending" books={trending} />
                   <ScrollableSection title="Classics" books={classics} />
