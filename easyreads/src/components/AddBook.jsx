@@ -3,13 +3,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 
 
 const apiurl = import.meta.env.VITE_BACKEND_URL;
@@ -95,7 +88,7 @@ function AddBook() {
       <div className="h-5/6 w-3/4 md:w-2/4 mx-auto flex flex-col justify-center">
         {status === 0 && (
           <div className="flex flex-col gap-4">
-            <p className="text-lg">
+            <p className="text-sm lg:text-lg">
               Thank you for helping us build a free and accessible online library! If you have a <strong>PDF</strong> or <strong>EPUB (PREFERRED)</strong> version of a
               book, you can upload it here to share with fellow readers.
               Your contribution makes knowledge more accessible worldwide. Together, we can create a vast, open-source
