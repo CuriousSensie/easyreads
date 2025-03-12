@@ -31,16 +31,22 @@ const Read = () => {
     const defaultLayoutPluginInstance = defaultLayoutPlugin();
     const [location, setLocation] = useLocalStorageState('reader-location', { defaultValue: 0 });
     const rendition = useRef(null);
-
     const { id } = useParams();
     const [data, setData] = useState(null);
-    const [fileType, setFileType] = useState(null); 
+    const [fileType, setFileType] = useState(null);
     const [fileUrl, setFileUrl] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [loadingMessage, setLoadingMessage] = useState("Loading book data...");
+    const [epubError, setEpubError] = useState(null);
+    const [readerKey, setReaderKey] = useState(Date.now());
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(null);
+    const pdfViewerRef = useRef(null);
 
     useEffect(() => {
         const getData = async () => {
             try {
+                setLoadingMessage("Fetching book information...");
                 const response = await fetch(`${apiurl}/api/books/${id}`);
                 if (!response.ok) throw new Error("Network response was not ok");
 
@@ -57,10 +63,11 @@ const Read = () => {
                     setFileType(null);
                     setFileUrl(null);
                 }
-
+                
+                setLoading(false);
             } catch (error) {
                 console.error("Error fetching data:", error);
-            } finally {
+                setEpubError("Failed to load book data: " + error.message);
                 setLoading(false);
             }
         };
@@ -74,41 +81,88 @@ const Read = () => {
         }
     }, [theme]);
 
-    useEffect(() => {
-        if (data) {
-            console.log("Book Data:", data);
+    const handlePrevPage = () => {
+        if (fileType === "epub" && rendition.current) {
+            rendition.current.prev();
+        } else if (fileType === "pdf" && currentPage > 1) {
+            setCurrentPage((prev) => prev - 1);
         }
-    }, [data]);
+    };
+
+    const handleNextPage = () => {
+        if (fileType === "epub" && rendition.current) {
+            rendition.current.next();
+        } else if (fileType === "pdf" && totalPages && currentPage < totalPages) {
+            setCurrentPage((prev) => prev + 1);
+        }
+    };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <div className="flex justify-center items-center h-screen flex-col">
+                <div className="mb-4">{loadingMessage}</div>
+                <div className="w-8 h-8 border-4 border-blue-500 rounded-full border-t-transparent animate-spin"></div>
+            </div>
+        );
     }
 
     return (
-        <div className="w-full h-full">
+        <div className="w-full h-full flex flex-col items-center">
             {fileType === 'epub' && fileUrl && (
-                <ReactReader
-                    url={fileUrl}
-                    location={location}
-                    title={data?.title || "Untitled Book"}
-                    locationChanged={(loc) => setLocation(loc)}
-                    readerStyles={theme === 'dark' ? darkReaderTheme : lightReaderTheme}
-                    getRendition={(renditionInstance) => {
-                        rendition.current = renditionInstance;
-                        updateTheme(renditionInstance, theme);
-                    }}
-                />
+                <div style={{ position: 'relative', height: '92vh', width: '100%' }} key={readerKey}>
+                    <ReactReader
+                        url={fileUrl}
+                        location={location}
+                        title={data?.title || "Untitled Book"}
+                        locationChanged={(loc) => setLocation(loc)}
+                        readerStyles={theme === 'dark' ? darkReaderTheme : lightReaderTheme}
+                        getRendition={(renditionInstance) => {
+                            rendition.current = renditionInstance;
+                            updateTheme(renditionInstance, theme);
+                        }}
+                        epubOptions={{
+                            flow: "paginated", // Disable scrolling
+                            manager: "default"
+                        }}
+                        loadingView={<div className="flex justify-center items-center h-full">
+                            <div className="w-8 h-8 border-4 border-blue-500 rounded-full border-t-transparent animate-spin"></div>
+                            <div className="ml-4">Loading EPUB...</div>
+                        </div>}
+                        errorView={<div className="text-red-500 p-4">Error loading EPUB</div>}
+                    />
+                </div>
             )}
 
             {fileType === 'pdf' && fileUrl && (
                 <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.js">
-                    <div style={{ height: '750px' }}>
-                        <Viewer fileUrl={fileUrl} plugins={[defaultLayoutPluginInstance]} />
+                    <div style={{ height: '92vh', width: '100%'}}>
+                        <Viewer 
+                            fileUrl={fileUrl} 
+                            plugins={[defaultLayoutPluginInstance]} 
+                            initialPage={currentPage - 1} 
+                            onDocumentLoad={(e) => setTotalPages(e.numPages)} 
+                            onPageChange={(e) => setCurrentPage(e.currentPageNumber)}
+                        />
                     </div>
                 </Worker>
             )}
 
-            {!fileType && <div>No file available for this book.</div>}
+            {/* <div className="mt-4 flex space-x-4">
+                <button 
+                    className="px-4 py-2 bg-gray-700 text-white rounded-md disabled:opacity-50"
+                    onClick={handlePrevPage}
+                    disabled={fileType === "pdf" ? currentPage <= 1 : false}
+                >
+                    Previous Page
+                </button>
+                <button 
+                    className="px-4 py-2 bg-gray-700 text-white rounded-md disabled:opacity-50"
+                    onClick={handleNextPage}
+                    disabled={fileType === "pdf" ? currentPage >= totalPages : false}
+                >
+                    Next Page
+                </button>
+            </div> */}
         </div>
     );
 };
@@ -117,40 +171,12 @@ export default Read;
 
 const lightReaderTheme = {
     ...ReactReaderStyle,
-    readerArea: {
-        ...ReactReaderStyle.readerArea,
-        backgroundColor: '#fff',
-        color: '#000',
-        transition: undefined,
-    },
+    container: { ...ReactReaderStyle.container, height: '100%', width: '100%' },
+    readerArea: { ...ReactReaderStyle.readerArea, backgroundColor: '#fff', color: '#000', height: "100%" },
 };
 
 const darkReaderTheme = {
     ...ReactReaderStyle,
-    readerArea: {
-        ...ReactReaderStyle.readerArea,
-        backgroundColor: '#000',
-        color: '#fff',
-        transition: undefined,
-    },
-    titleArea: {
-        ...ReactReaderStyle.titleArea,
-        color: '#ccc',
-    },
-    tocArea: {
-        ...ReactReaderStyle.tocArea,
-        background: '#111',
-    },
-    tocButtonExpanded: {
-        ...ReactReaderStyle.tocButtonExpanded,
-        background: '#222',
-    },
-    tocButtonBar: {
-        ...ReactReaderStyle.tocButtonBar,
-        background: '#fff',
-    },
-    tocButton: {
-        ...ReactReaderStyle.tocButton,
-        color: 'white',
-    },
+    container: { ...ReactReaderStyle.container, height: '100%', width: '100%' },
+    readerArea: { ...ReactReaderStyle.readerArea, backgroundColor: '#000', color: '#fff', height: "100%" },
 };

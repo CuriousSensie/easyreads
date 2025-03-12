@@ -273,7 +273,7 @@ function AddBook() {
                 <Button onClick={() => {
                   if (formData.pdf || formData.epub) {
                     setMessage("");
-                    ing(true);
+                    loading(true);
                     handleSubmit();
                   } else {
                     setMessage("Error: Please upload at least one file.");
