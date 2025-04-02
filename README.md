@@ -13,11 +13,11 @@ Make Notes and Highlights (coming soon)<br />
 A dedicated mobile app (coming soon)<br />
 
 ## Tech
-Frontend - React, TailwindCSS, ShadCN
-Backend - Node.js, Express.js.
-Authentication - Clerk (connected with MongoDB using WebHooks)
-Database - MongoDB for data storage.
-Cloud Storage - Amazon S2 for file storage.
+Frontend - React, TailwindCSS, ShadCN <br />
+Backend - Node.js, Express.js.<br />
+Authentication - Clerk (connected with MongoDB using WebHooks)<br />
+Database - MongoDB for data storage.<br />
+Cloud Storage - Amazon S2 for file storage.<br />
 
 ![image](https://github.com/user-attachments/assets/06301e56-409f-4233-97b7-4b5101f200e6)
 ![image](https://github.com/user-attachments/assets/3c64921b-c274-40d6-8d80-3f079efc6265)
