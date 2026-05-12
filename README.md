@@ -1,7 +1,6 @@
 # EasyReads
 
 A simple app to read books online. Read books from anywhere on any device. Add your books to the app and help others access them. <br />
-<a href="https://easyreads.vercel.app">Click here to check the deployed version</a>
 
 ## Features
 User Authentication <br />
